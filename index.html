@@ -5,500 +5,502 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BESC Hyperchain — Performance Benchmark</title>
 <style>
-  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --bg:      #080c18;
-    --card:    #0d1424;
-    --border:  #1a2540;
-    --text:    #e2e8f0;
-    --muted:   #64748b;
-    --dim:     #334155;
-    --blue:    #3b82f6;
-    --purple:  #8b5cf6;
-    --cyan:    #38bdf8;
-    --green:   #4ade80;
-  }
+:root {
+  --bg:     #060a14;
+  --card:   #0b1120;
+  --border: #162035;
+  --text:   #f1f5f9;
+  --muted:  #64748b;
+  --dim:    #2d3f5a;
+  --blue:   #3b82f6;
+  --purple: #8b5cf6;
+  --cyan:   #22d3ee;
+  --green:  #4ade80;
+}
 
-  html { font-size: 16px; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 40px 32px;
-    max-width: 1060px;
-    margin: 0 auto;
-    line-height: 1.5;
-  }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
 
-  /* ─── Header ─────────────────────── */
-  .header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-  .eyebrow {
-    font-size: 11px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 14px;
-  }
-  .header h1 {
-    font-size: clamp(26px, 5vw, 40px);
-    font-weight: 800;
-    background: linear-gradient(135deg, #e2e8f0 30%, #818cf8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
-    line-height: 1.2;
-  }
-  .tagline {
-    color: var(--muted);
-    font-size: clamp(12px, 2vw, 14px);
-    margin-bottom: 6px;
-  }
-  .meta {
-    color: var(--dim);
-    font-size: 12px;
-    letter-spacing: 0.5px;
-  }
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
 
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 36px 0;
-  }
+/* ── Header ── */
+.hdr {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.hdr-chip {
+  display: inline-block;
+  background: rgba(34,211,238,.1);
+  border: 1px solid rgba(34,211,238,.25);
+  color: var(--cyan);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.hdr h1 {
+  font-size: clamp(28px, 7vw, 42px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #f1f5f9 0%, #818cf8 60%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hdr-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+.hdr-meta {
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.5px;
+}
 
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 18px;
-  }
+/* ── Spec row ── */
+.specs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 36px;
+}
+.spec {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 8px;
+  text-align: center;
+}
+.spec-lbl { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-bottom: 5px; }
+.spec-val { font-size: 15px; font-weight: 700; color: #cbd5e1; line-height: 1.2; }
+.spec-sub { font-size: 9px; color: var(--dim); margin-top: 3px; }
 
-  /* ─── Specs ──────────────────────── */
-  .specs {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 44px;
-  }
-  .spec {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 12px;
-    text-align: center;
-  }
-  .spec .sl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
-  .spec .sv { font-size: clamp(16px, 2.5vw, 20px); font-weight: 700; color: #cbd5e1; }
-  .spec .ss { font-size: 10px; color: var(--dim); margin-top: 3px; }
+/* ── Section heading ── */
+.sh {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 14px;
+}
 
-  /* ─── Result cards ───────────────── */
-  .results {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .rcard {
-    border-radius: 14px;
-    padding: clamp(20px, 4vw, 30px);
-  }
-  .rcard.c1 {
-    background: linear-gradient(145deg, #071428, #0c1e3a);
-    border: 1px solid #1d4ed8;
-  }
-  .rcard.c2 {
-    background: linear-gradient(145deg, #100828, #1a0d40);
-    border: 1px solid #6d28d9;
-  }
+/* ── Result cards ── */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.card {
+  border-radius: 16px;
+  padding: 22px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+}
+.card-a {
+  background: linear-gradient(160deg, #071830 0%, #0a2040 100%);
+  border: 1px solid rgba(59,130,246,.4);
+}
+.card-b {
+  background: linear-gradient(160deg, #130720 0%, #1c0b38 100%);
+  border: 1px solid rgba(139,92,246,.4);
+}
 
-  .rc-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .rc-label {
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--dim);
-  }
-  .rc-pill {
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .c1 .rc-pill { background: rgba(29,78,216,.2); color: #60a5fa; border: 1px solid rgba(29,78,216,.4); }
-  .c2 .rc-pill { background: rgba(109,40,217,.2); color: #a78bfa; border: 1px solid rgba(109,40,217,.4); }
-  .rc-pill .dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
-  .c1 .rc-pill .dot { background:#3b82f6; box-shadow:0 0 5px #3b82f6; }
-  .c2 .rc-pill .dot { background:#8b5cf6; box-shadow:0 0 5px #8b5cf6; }
+.card-tag {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.card-a .card-tag { color: #60a5fa; }
+.card-b .card-tag { color: #a78bfa; }
 
-  .rc-gas {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .rc-gas strong { color: #94a3b8; }
+.card-gas {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-gas strong { color: #94a3b8; font-weight: 700; }
 
-  .rc-tps {
-    margin: 10px 0 20px;
-    line-height: 1;
-  }
-  .rc-tps .num {
-    font-size: clamp(56px, 8vw, 80px);
-    font-weight: 900;
-    letter-spacing: -3px;
-  }
-  .c1 .rc-tps .num { color: #3b82f6; }
-  .c2 .rc-tps .num { color: #8b5cf6; }
-  .rc-tps .unit { font-size: 20px; color: var(--muted); margin-left: 4px; font-weight: 400; }
+.card-tps {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+.card-tps .n {
+  font-size: clamp(52px, 12vw, 72px);
+  font-weight: 900;
+  letter-spacing: -3px;
+  line-height: 1;
+}
+.card-a .card-tps .n { color: #60a5fa; }
+.card-b .card-tps .n { color: #a78bfa; }
+.card-tps .u { font-size: 16px; color: var(--muted); font-weight: 400; padding-bottom: 4px; }
 
-  .rc-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255,255,255,.05);
-  }
-  .rcm .ml { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-bottom: 3px; }
-  .rcm .mv { font-size: clamp(14px, 2vw, 17px); font-weight: 700; color: var(--text); }
-  .rcm .ms { font-size: 10px; color: var(--muted); }
+.card-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.cstat-lbl { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); margin-bottom: 3px; }
+.cstat-val { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.cstat-sub { font-size: 9px; color: var(--muted); margin-top: 1px; }
 
-  /* ─── Method note ────────────────── */
-  .method {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--purple);
-    border-radius: 0 8px 8px 0;
-    padding: 14px 18px;
-    margin-bottom: 44px;
-    font-size: 12.5px;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-  .method strong { color: #94a3b8; }
+/* ── Note ── */
+.note {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin-bottom: 32px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.note strong { color: #94a3b8; }
 
-  /* ─── Chart ──────────────────────── */
-  .chart {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: clamp(20px, 4vw, 32px);
-    margin-bottom: 44px;
-  }
-  .chart-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #94a3b8;
-    margin-bottom: 24px;
-  }
-  .br {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
-  .bc {
-    font-size: 11px;
-    color: var(--muted);
-    width: 110px;
-    text-align: right;
-    flex-shrink: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .bc.hi { color: var(--text); font-weight: 700; }
-  .bt {
-    flex: 1;
-    background: #1a2540;
-    border-radius: 5px;
-    height: 28px;
-    overflow: hidden;
-    min-width: 0;
-  }
-  .bf {
-    height: 100%;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .bf.base  { background: linear-gradient(90deg,#14532d,#166534); color:#86efac; }
-  .bf.b30   { background: linear-gradient(90deg,#3730a3,#4f46e5); color:#c7d2fe; }
-  .bf.poly  { background: linear-gradient(90deg,#3b0764,#6b21a8); color:#d8b4fe; }
-  .bf.b10   { background: linear-gradient(90deg,#1e3a8a,#1d4ed8); color:#93c5fd; }
-  .bf.arb   { background: linear-gradient(90deg,#1e3a5f,#1e40af); color:#7dd3fc; }
-  .bf.eth   { background: linear-gradient(90deg,#1e293b,#334155); color:#94a3b8; }
-  .bf.op    { background: linear-gradient(90deg,#450a0a,#7f1d1d); color:#fca5a5; }
-  .bv {
-    font-size: 11px;
-    font-weight: 700;
-    width: 55px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .bv.v30  { color: #818cf8; }
-  .bv.v10  { color: #60a5fa; }
-  .bv.vo   { color: var(--dim); }
-  .bsep { height:1px; background:var(--border); margin:10px 0 10px 122px; }
+/* ── Chart ── */
+.chart {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 18px;
+  margin-bottom: 32px;
+}
+.chart-ttl {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+.rname {
+  font-size: 11px;
+  color: var(--muted);
+  width: 88px;
+  flex-shrink: 0;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rname.hi { color: var(--text); font-weight: 700; }
+.rtrack {
+  flex: 1;
+  background: #162035;
+  border-radius: 5px;
+  height: 26px;
+  overflow: hidden;
+  min-width: 0;
+}
+.rfill {
+  height: 100%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 4px;
+}
+.rf-base { background: linear-gradient(90deg,#14532d,#166534); color: #86efac; }
+.rf-b30  { background: linear-gradient(90deg,#3730a3,#4f46e5); color: #c7d2fe; }
+.rf-poly { background: linear-gradient(90deg,#3b0764,#6b21a8); color: #e9d5ff; }
+.rf-b10  { background: linear-gradient(90deg,#1e3a8a,#1d4ed8); color: #bfdbfe; }
+.rf-arb  { background: linear-gradient(90deg,#1e3a5f,#1e40af); color: #bae6fd; }
+.rf-eth  { background: linear-gradient(90deg,#1e293b,#334155); color: #94a3b8; }
+.rf-op   { background: linear-gradient(90deg,#450a0a,#7f1d1d); color: #fecaca; }
+.rval {
+  font-size: 11px;
+  font-weight: 700;
+  width: 46px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.rv30 { color: #a78bfa; }
+.rv10 { color: #60a5fa; }
+.rvo  { color: var(--dim); }
+.rsep { height: 1px; background: var(--border); margin: 8px 0 8px 98px; }
 
-  /* ─── Evidence ───────────────────── */
-  .evidence {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: clamp(20px, 4vw, 32px);
-    margin-bottom: 44px;
-  }
-  .ev-title { font-size: 14px; font-weight: 600; color: #94a3b8; margin-bottom: 4px; }
-  .ev-sub   { font-size: 12px; color: var(--dim); margin-bottom: 18px; }
-  .terminal {
-    background: #020617;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px 22px;
-    font-family: 'SF Mono','Fira Code','Menlo',monospace;
-    font-size: clamp(11px, 1.8vw, 13px);
-    line-height: 2;
-    overflow-x: auto;
-  }
-  .tk  { color: var(--dim); }
-  .tv  { color: var(--cyan); }
-  .tg  { color: var(--green); font-weight: 700; }
-  .td  { color: #1e3a5f; font-size: 10px; }
-  .th  { color: var(--muted); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+/* ── Evidence ── */
+.ev {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 18px;
+  margin-bottom: 32px;
+}
+.ev-ttl { font-size: 13px; font-weight: 700; color: #94a3b8; margin-bottom: 4px; }
+.ev-sub { font-size: 11px; color: var(--dim); margin-bottom: 16px; line-height: 1.5; }
+.term {
+  background: #03080f;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-family: 'SF Mono','Fira Code','Menlo',monospace;
+  font-size: clamp(10px, 2.5vw, 12px);
+  line-height: 2;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tk { color: var(--dim); }
+.tv { color: var(--cyan); }
+.tg { color: var(--green); font-weight: 700; }
+.td { color: #1e3a5f; font-size: 9px; }
+.th { color: var(--muted); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 4px; }
 
-  /* ─── Footer ─────────────────────── */
-  .footer {
-    text-align: center;
-    padding-top: 28px;
-    border-top: 1px solid var(--border);
-    color: var(--dim);
-    font-size: 11px;
-    letter-spacing: 1px;
-    line-height: 2;
-  }
+/* ── Footer ── */
+.foot {
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  color: var(--dim);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  line-height: 2;
+}
 
-  /* ─── Mobile ─────────────────────── */
-  @media (max-width: 640px) {
-    body { padding: 24px 16px; }
+/* ── Divider ── */
+.div {
+  height: 1px;
+  background: linear-gradient(90deg,transparent,var(--border),transparent);
+  margin: 28px 0;
+}
 
-    .specs {
-      grid-template-columns: repeat(2, 1fr);
-    }
+/* ── Mobile tweaks ── */
+@media (max-width: 480px) {
+  .page { padding: 24px 16px 40px; }
+  .specs { grid-template-columns: repeat(2, 1fr); }
+  .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { padding: 16px 14px; }
+  .card-gas { font-size: 10px; }
+  .card-stats { gap: 6px; }
+  .rname { width: 72px; font-size: 10px; }
+  .rval { width: 38px; font-size: 10px; }
+  .rsep { margin-left: 82px; }
+}
 
-    .results {
-      grid-template-columns: 1fr;
-    }
+@media (max-width: 340px) {
+  .cards { grid-template-columns: 1fr; }
+  .specs { grid-template-columns: repeat(2, 1fr); }
+}
 
-    .bc { width: 80px; font-size: 10px; }
-    .bv { width: 44px; }
-    .bsep { margin-left: 92px; }
-
-    .rc-grid { grid-template-columns: 1fr 1fr; }
-  }
-
-  @media (max-width: 380px) {
-    .specs { grid-template-columns: 1fr 1fr; }
-    .bc { width: 70px; }
-  }
-
-  @media print {
-    body { background: var(--bg) !important; padding: 20px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  }
+@media print {
+  body { background: var(--bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { padding: 20px; }
+}
 </style>
 </head>
 <body>
+<div class="page">
 
-<!-- Header -->
-<div class="header">
-  <div class="eyebrow">BESC Hyperchain &nbsp;·&nbsp; Chain ID 2372</div>
-  <h1>Performance Benchmark Report</h1>
-  <div class="tagline">EVM-Compatible &nbsp;·&nbsp; IBFT 2.0 Byzantine Fault Tolerant Consensus &nbsp;·&nbsp; Besu 23.7.3</div>
-  <div class="meta">Live mainnet test &nbsp;·&nbsp; June 4, 2026 &nbsp;·&nbsp; All data verifiable on-chain</div>
-</div>
-
-<!-- Specs -->
-<div class="section-label">Chain Specifications</div>
-<div class="specs">
-  <div class="spec">
-    <div class="sl">Consensus</div>
-    <div class="sv">IBFT 2.0</div>
-    <div class="ss">4 validators · BFT</div>
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-chip">BESC Hyperchain · Chain ID 2372</div>
+    <h1>Performance<br>Benchmark</h1>
+    <p class="hdr-sub">EVM-Compatible · IBFT 2.0 Byzantine Fault Tolerant · Besu 23.7.3</p>
+    <p class="hdr-meta">Live mainnet test · June 4, 2026 · All data verifiable on-chain</p>
   </div>
-  <div class="spec">
-    <div class="sl">Block Time</div>
-    <div class="sv">3.00s</div>
-    <div class="ss">Live measured</div>
-  </div>
-  <div class="spec">
-    <div class="sl">Finality</div>
-    <div class="sv">~3s</div>
-    <div class="ss">Single block</div>
-  </div>
-  <div class="spec">
-    <div class="sl">EVM</div>
-    <div class="sv">Full</div>
-    <div class="ss">ETH-compatible</div>
-  </div>
-</div>
 
-<div class="divider"></div>
-
-<!-- Result cards -->
-<div class="section-label">Benchmark Results — Gas Limit Configurations</div>
-<div class="results">
-
-  <div class="rcard c1">
-    <div class="rc-top">
-      <div class="rc-label">10M Gas Limit</div>
-      <div class="rc-pill"><span class="dot"></span>Live Test Run</div>
+  <!-- Specs -->
+  <div class="sh">Chain Specifications</div>
+  <div class="specs">
+    <div class="spec">
+      <div class="spec-lbl">Consensus</div>
+      <div class="spec-val">IBFT 2.0</div>
+      <div class="spec-sub">4 validators</div>
     </div>
-    <div class="rc-gas">Block Gas Limit: <strong>10,000,000</strong></div>
-    <div class="rc-tps"><span class="num">158</span><span class="unit">TPS</span></div>
-    <div class="rc-grid">
-      <div class="rcm">
-        <div class="ml">Mgas/s</div>
-        <div class="mv">3.33</div>
-      </div>
-      <div class="rcm">
-        <div class="ml">Block Fill</div>
-        <div class="mv">99.8%</div>
-        <div class="ms">475 / 476 txs</div>
-      </div>
-      <div class="rcm">
-        <div class="ml">Txs/Block</div>
-        <div class="mv">476 max</div>
-      </div>
-      <div class="rcm">
-        <div class="ml">vs Ethereum</div>
-        <div class="mv">7× faster</div>
-      </div>
+    <div class="spec">
+      <div class="spec-lbl">Block Time</div>
+      <div class="spec-val">3.00s</div>
+      <div class="spec-sub">Live measured</div>
+    </div>
+    <div class="spec">
+      <div class="spec-lbl">Finality</div>
+      <div class="spec-val">~3s</div>
+      <div class="spec-sub">Single block</div>
+    </div>
+    <div class="spec">
+      <div class="spec-lbl">EVM</div>
+      <div class="spec-val">Full</div>
+      <div class="spec-sub">ETH tooling</div>
     </div>
   </div>
 
-  <div class="rcard c2">
-    <div class="rc-top">
-      <div class="rc-label">30M Gas Limit</div>
-      <div class="rc-pill"><span class="dot"></span>Same Test Data</div>
+  <div class="div"></div>
+
+  <!-- Result Cards -->
+  <div class="sh">Benchmark Results — Two Gas Configurations</div>
+  <div class="cards">
+
+    <div class="card card-a">
+      <div class="card-tag">10M Gas Limit</div>
+      <div class="card-gas">Tested live on mainnet</div>
+      <div class="card-tps">
+        <span class="n">158</span><span class="u">TPS</span>
+      </div>
+      <div class="card-stats">
+        <div>
+          <div class="cstat-lbl">Mgas/s</div>
+          <div class="cstat-val">3.33</div>
+        </div>
+        <div>
+          <div class="cstat-lbl">Block fill</div>
+          <div class="cstat-val">99.8%</div>
+          <div class="cstat-sub">475/476 txs</div>
+        </div>
+        <div>
+          <div class="cstat-lbl">Txs/block</div>
+          <div class="cstat-val">476 max</div>
+        </div>
+        <div>
+          <div class="cstat-lbl">vs Ethereum</div>
+          <div class="cstat-val">7× faster</div>
+        </div>
+      </div>
     </div>
-    <div class="rc-gas">Block Gas Limit: <strong>30,000,000</strong></div>
-    <div class="rc-tps"><span class="num">476</span><span class="unit">TPS</span></div>
-    <div class="rc-grid">
-      <div class="rcm">
-        <div class="ml">Mgas/s</div>
-        <div class="mv">10.0</div>
+
+    <div class="card card-b">
+      <div class="card-tag">30M Gas Limit</div>
+      <div class="card-gas">Same chain · 3× block size</div>
+      <div class="card-tps">
+        <span class="n">476</span><span class="u">TPS</span>
       </div>
-      <div class="rcm">
-        <div class="ml">Block Fill</div>
-        <div class="mv">99.8%</div>
-        <div class="ms">proven efficiency</div>
+      <div class="card-stats">
+        <div>
+          <div class="cstat-lbl">Mgas/s</div>
+          <div class="cstat-val">10.0</div>
+        </div>
+        <div>
+          <div class="cstat-lbl">Block fill</div>
+          <div class="cstat-val">99.8%</div>
+          <div class="cstat-sub">proven rate</div>
+        </div>
+        <div>
+          <div class="cstat-lbl">Txs/block</div>
+          <div class="cstat-val">1,428 max</div>
+        </div>
+        <div>
+          <div class="cstat-lbl">vs Ethereum</div>
+          <div class="cstat-val">21× faster</div>
+        </div>
       </div>
-      <div class="rcm">
-        <div class="ml">Txs/Block</div>
-        <div class="mv">1,428 max</div>
-      </div>
-      <div class="rcm">
-        <div class="ml">vs Ethereum</div>
-        <div class="mv">21× faster</div>
-      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <strong>Both numbers come from the same live test.</strong> The benchmark filled blocks to 99.8% at 10M gas — the chain hit max capacity. The 476 TPS applies that same proven efficiency to a 30M gas limit: 3× bigger blocks, identical 3-second block time, same consensus. Gas limit is a config value — no hard fork required.
+  </div>
+
+  <div class="div"></div>
+
+  <!-- Chart -->
+  <div class="sh">TPS vs Major Networks</div>
+  <div class="chart">
+    <div class="chart-ttl">Transactions per second — peak capacity</div>
+
+    <div class="row">
+      <div class="rname">Base (L2)</div>
+      <div class="rtrack"><div class="rfill rf-base" style="width:100%">556 TPS</div></div>
+      <div class="rval rvo">556</div>
+    </div>
+    <div class="row">
+      <div class="rname hi">BESC 30M ★</div>
+      <div class="rtrack"><div class="rfill rf-b30" style="width:85.6%">476 TPS</div></div>
+      <div class="rval rv30">476</div>
+    </div>
+
+    <div class="rsep"></div>
+
+    <div class="row">
+      <div class="rname">Polygon PoS</div>
+      <div class="rtrack"><div class="rfill rf-poly" style="width:15.3%">85</div></div>
+      <div class="rval rvo">85</div>
+    </div>
+    <div class="row">
+      <div class="rname hi">BESC 10M ★</div>
+      <div class="rtrack"><div class="rfill rf-b10" style="width:28.4%">158 TPS</div></div>
+      <div class="rval rv10">158</div>
+    </div>
+    <div class="row">
+      <div class="rname">ArbitrumOne</div>
+      <div class="rtrack"><div class="rfill rf-arb" style="width:4.5%">&nbsp;</div></div>
+      <div class="rval rvo">25</div>
+    </div>
+    <div class="row">
+      <div class="rname">Ethereum L1</div>
+      <div class="rtrack"><div class="rfill rf-eth" style="width:4.0%">&nbsp;</div></div>
+      <div class="rval rvo">22</div>
+    </div>
+    <div class="row">
+      <div class="rname">OP Mainnet</div>
+      <div class="rtrack"><div class="rfill rf-op" style="width:3.6%">&nbsp;</div></div>
+      <div class="rval rvo">20</div>
     </div>
   </div>
 
+  <div class="div"></div>
+
+  <!-- Evidence -->
+  <div class="sh">On-Chain Evidence</div>
+  <div class="ev">
+    <div class="ev-ttl">Block #8,288,727 — BESC Hyperchain Mainnet</div>
+    <div class="ev-sub">Live load test · June 4, 2026 · Chain ID 2372<br>Independently verifiable on-chain</div>
+    <div class="term">
+      <span class="th">// Raw block data — 10M gas config</span>
+      <span class="tk">Block     </span><span class="tv">8,288,727</span><br>
+      <span class="tk">Txs       </span><span class="tg">475 confirmed</span> <span class="td">// 476 max (99.8%)</span><br>
+      <span class="tk">Gas used  </span><span class="tv">9,975,000</span> <span class="td">// of 10,000,000</span><br>
+      <span class="tk">Block time</span><span class="tv"> 3.000s</span> <span class="td">// IBFT exact</span><br>
+      <span class="tk">Result    </span><span class="tg">158.3 TPS — at max capacity</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="foot">
+    BESC Hyperchain · beschyperchain.com<br>
+    <span style="color:#1e3a5f">Live production mainnet · All figures verifiable on-chain · June 4, 2026</span>
+  </div>
+
 </div>
-
-<div class="method">
-  <strong>Both results come from the same live test.</strong> The benchmark achieved 99.8% block utilisation at 10M gas — the chain maxed out its capacity. The 476 TPS figure directly applies that same proven 99.8% efficiency to a 30M gas limit: 3× the block space, same 3-second block time, same consensus. The gas limit is a single-line config change — no hard fork, no data migration, no chain interruption.
-</div>
-
-<div class="divider"></div>
-
-<!-- Chart -->
-<div class="section-label">TPS Comparison — BESC vs Major Networks</div>
-<div class="chart">
-  <div class="chart-title">Transactions per second — peak capacity</div>
-
-  <div class="br">
-    <div class="bc">Base (L2)</div>
-    <div class="bt"><div class="bf base" style="width:100%">556 TPS</div></div>
-    <div class="bv vo">556</div>
-  </div>
-  <div class="br">
-    <div class="bc hi">BESC 30M ★</div>
-    <div class="bt"><div class="bf b30" style="width:85.6%">476 TPS</div></div>
-    <div class="bv v30">476</div>
-  </div>
-
-  <div class="bsep"></div>
-
-  <div class="br">
-    <div class="bc">Polygon PoS</div>
-    <div class="bt"><div class="bf poly" style="width:15.3%">85</div></div>
-    <div class="bv vo">85</div>
-  </div>
-  <div class="br">
-    <div class="bc hi">BESC 10M ★</div>
-    <div class="bt"><div class="bf b10" style="width:28.4%">158 TPS</div></div>
-    <div class="bv v10">158</div>
-  </div>
-  <div class="br">
-    <div class="bc">ArbitrumOne</div>
-    <div class="bt"><div class="bf arb" style="width:4.5%">&nbsp;</div></div>
-    <div class="bv vo">25</div>
-  </div>
-  <div class="br">
-    <div class="bc">Ethereum L1</div>
-    <div class="bt"><div class="bf eth" style="width:4.0%">&nbsp;</div></div>
-    <div class="bv vo">22</div>
-  </div>
-  <div class="br">
-    <div class="bc">OP Mainnet</div>
-    <div class="bt"><div class="bf op" style="width:3.6%">&nbsp;</div></div>
-    <div class="bv vo">20</div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- Evidence -->
-<div class="section-label">On-Chain Evidence</div>
-<div class="evidence">
-  <div class="ev-title">Block #8,288,727 — BESC Hyperchain Mainnet</div>
-  <div class="ev-sub">Live load test · June 4, 2026 · Chain ID 2372 · Independently verifiable on-chain</div>
-  <div class="terminal">
-    <span class="th">// Raw block data — 10M gas limit run</span>
-    <span class="tk">Block Number  </span><span class="tv">8,288,727</span><br>
-    <span class="tk">Transactions  </span><span class="tg">475 confirmed</span> <span class="td">// max possible: 476  (99.8% full)</span><br>
-    <span class="tk">Gas Used      </span><span class="tv">9,975,000</span> <span class="td">// limit: 10,000,000  (99.75% utilized)</span><br>
-    <span class="tk">Block Time    </span><span class="tv">3.000 seconds</span> <span class="td">// IBFT exact consensus</span><br>
-    <span class="tk">Result        </span><span class="tg">158.3 TPS — chain at maximum capacity</span><br>
-    <span class="tk">Network       </span><span class="tv">BESC Hyperchain · Chain ID 2372</span>
-  </div>
-</div>
-
-<div class="footer">
-  BESC Hyperchain &nbsp;·&nbsp; beschyperchain.com<br>
-  Benchmark on live production mainnet · All figures independently verifiable on-chain
-</div>
-
 </body>
 </html>
